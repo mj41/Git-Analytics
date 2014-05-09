@@ -57,17 +57,17 @@ COMMIT_CSV
 sub commits_files_csv {
 	return <<'COMMIT_FILES_CSV';
 sha1,fpath,dir_l1,dir_l2,fname,ftype,lang,sub_project,lines_add,lines_rm
-5ac7c3d75e2af0fde3e07ce9e1698339c4241150,Configure.pl,,,Configure.pl,,,,1,1
-88b266ba0c3021c3951b778c69ba16a1fc011270,Makefile,,,Makefile,,,,3,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,.gitignore,,,.gitignore,,,,1,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/1_base.t,t,,1_base.t,,,,11,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/2_err.t,t,,2_err.t,,,,10,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/3_more.t,t,,3_more.t,,,,20,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/harness,t,,harness,,,,25,0
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/1_base.t,t,,1_base.t,,,,0,1
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/2_err.t,t,,2_err.t,,,,2,1
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/3_more.t,t,,3_more.t,,,,2,0
-e1cd1429359c6e8cc10f7c1c20c0969390546f11,t/3_more.t,t,,3_more.t,,,,1,1
+5ac7c3d75e2af0fde3e07ce9e1698339c4241150,Configure.pl,,,Configure.pl,code,Perl,-,1,1
+88b266ba0c3021c3951b778c69ba16a1fc011270,Makefile,,,Makefile,unk,unk,-,3,0
+da1b48a750aefd30aaaf9aac4df8e7606f05a855,.gitignore,,,.gitignore,unk,unk,-,1,0
+da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/1_base.t,t,,1_base.t,test,Perl,-,11,0
+da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/2_err.t,t,,2_err.t,test,Perl,-,10,0
+da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/3_more.t,t,,3_more.t,test,Perl,-,20,0
+da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/harness,t,,harness,unk,unk,-,25,0
+fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/1_base.t,t,,1_base.t,test,Perl,-,0,1
+fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/2_err.t,t,,2_err.t,test,Perl,-,2,1
+fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/3_more.t,t,,3_more.t,test,Perl,-,2,0
+e1cd1429359c6e8cc10f7c1c20c0969390546f11,t/3_more.t,t,,3_more.t,test,Perl,-,1,1
 COMMIT_FILES_CSV
 }
 

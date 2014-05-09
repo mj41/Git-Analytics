@@ -176,9 +176,21 @@ sub get_file_details {
 
 sub get_file_fname_lang {
 	my ( $self, $fpath, $file_sha1_hash, $git_file_mode ) = @_;
-	my $ftype = '';
-	my $lang = '';
-	return ( $ftype, $lang );
+	return ('code','Perl')          if $fpath =~ m{\.(pl|pm)$}i;
+	return ('doc', 'Perl')          if $fpath =~ m{\.(pod)$}i;
+	return ('test','Perl')          if $fpath =~ m{\.(t)$}i;
+	return ('code','Perl 6')        if $fpath =~ m{\.(p6)$}i;
+	return ('code','NQP')           if $fpath =~ m{\.(nqp)$}i;
+	return ('code','PIR')           if $fpath =~ m{\.(pir)$}i;
+	return ('code','C')             if $fpath =~ m{\.(c|h)$}i;
+	return ('code','JavaScript')    if $fpath =~ m{\.(js)$}i;
+	return ('code','Python')        if $fpath =~ m{\.(py)$}i;
+	return ('code','Java')          if $fpath =~ m{\.(java)$}i;
+	return ('code','Bash')          if $fpath =~ m{\.(sh)$}i;
+	return ('code','Haskell')       if $fpath =~ m{\.(hs)$}i;
+	return ('view','HTML')          if $fpath =~ m{\.(html?)$}i;
+	return ('view','CSS')           if $fpath =~ m{\.(css?)$}i;
+	return ('unk','unk');
 }
 
 sub process_one {
@@ -252,7 +264,7 @@ sub process_one {
 					$fpath, $item->{hash}, $item->{mode}
 				);
 				my $sub_project = ( not defined $args{to_sub_project_tr_closure} )
-					? ''
+					? '-'
 					: $args{to_sub_project_tr_closure}->( $fpath, $dir_l1, $dir_l2, $fname )
 				;
 
