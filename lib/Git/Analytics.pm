@@ -14,6 +14,7 @@ sub new {
 	my ( $class, %args )= @_;
 	my $self = {};
 	$self->{vl} = $args{verbose_level} // 3;
+	$self->{also_commits_files} = $args{also_commits_files} // 0;
 	$self->{data_cache_dir} = $args{data_cache_dir} || 'data-cache';
 	$self->{json_obj} = JSON::XS->new->canonical(1)->pretty(1)->utf8(0)->relaxed(1);
 	bless $self, $class;
@@ -114,19 +115,29 @@ sub get_project_state {
     return ( $state_fpath, $state, $project_state_fpath, $project_state );
 }
 
-sub open_out_csv_file {
-	my ( $self, $csv_out_fpath ) = @_;
+sub open_out_csv_files {
+	my ( $self, $csv_out_fpath, $cfiles_csv_out_fpath ) = @_;
+
+	if ( $self->{also_commits_files} ) {
+		croak "Missing fpath to CSV for details of commits file.\n" unless $cfiles_csv_out_fpath;
+	}
 
     open( my $fh, ">>:encoding(utf8)", $csv_out_fpath )
 		|| croak("Can't open '$csv_out_fpath' for write/append: $!");
 	$self->{csv_fh} = $fh;
+
+	if ( $self->{also_commits_files} ) {
+		open( my $cfiles_fh, ">>:encoding(utf8)", $cfiles_csv_out_fpath )
+			|| croak("Can't open '$cfiles_csv_out_fpath' for write/append: $!");
+		$self->{cfiles_csv_fh} = $cfiles_fh;
+	}
 
     my $csv = Text::CSV_XS->new();
     $csv->eol("\n");
 	$self->{csv_obj} = $csv;
 }
 
-sub print_header_to_csv {
+sub print_csv_headers {
 	my ( $self ) = @_;
 
     my @head_row = qw/
@@ -137,6 +148,13 @@ sub print_header_to_csv {
         files_a files_m files_d lines_add lines_rm
     /;
     $self->{csv_obj}->print( $self->{csv_fh}, \@head_row );
+
+	if ( $self->{also_commits_files} ) {
+		my @cfiles_head_row = qw/
+			sha1 fpath dir_l1 dir_l2 ftype lang sub_project
+		/;
+		$self->{csv_obj}->print( $self->{cfiles_csv_fh}, \@cfiles_head_row );
+	}
 }
 
 sub gmtime_to_ymd {
@@ -145,8 +163,33 @@ sub gmtime_to_ymd {
     return $dt->ymd;
 }
 
+sub get_file_details {
+	my ( $self, $fpath ) = @_;
+
+	my ( $dirs_str, $fname ) = $fpath =~ m{^ (.*?) ([^\/]+) $}x;
+	my ( $dir_l1, $dir_l2 ) = $dirs_str =~ m{^ ([^\/]+) \/ ([^\/]*) \/?}x;
+	$dir_l1 //= '';
+	$dir_l2 //= '';
+
+	return ( $dir_l1, $dir_l2, $fname );
+}
+
+sub get_file_fname_lang {
+	my ( $self, $fpath, $file_sha1_hash, $git_file_mode ) = @_;
+	my $ftype = '';
+	my $lang = '';
+	return ( $ftype, $lang );
+}
+
+sub sub_project {
+	my ( $self, $dir_l1, $dir_l2, $fpath ) = @_;
+	my $sub_project = '';
+	return $sub_project;
+}
+
 sub process_one {
     my ( $self, $project_alias, $project_name, $git_lograw_obj, %args ) = @_;
+	$args{git_log_args} = {} unless defined $args{git_log_args};
 
     print "Runnnig update for project '$project_alias'.\n" if $self->{vl} >= 4;
 	my ( $state_fpath, $state, $project_state_fpath, $project_state ) = $self->get_project_state( $project_alias );
@@ -154,7 +197,7 @@ sub process_one {
     print "Loading log.\n" if $self->{vl} >= 4;
     my $log = $git_lograw_obj->get_log(
         $project_state->{done_sha},
-        # debug_sha => '12fb9b9153933e0a8c907ccca91b92fe829a5de6',
+        %{ $args{git_log_args} }
     );
 
     croak "Probably parsing error.\n" unless ref $log eq 'ARRAY';
@@ -191,6 +234,34 @@ sub process_one {
             $is_merge ? '1' : '0', $num_of_parents,
             @files_sum_stat, @lines_sum_stat
         ] );
+
+		if ( $self->{also_commits_files} ) {
+			foreach my $item ( @{$commit->{items}} ) {
+				my $fpath = $item->{name};
+				my $lines_add = 0;
+				my $lines_rm = 0;
+
+				if ( exists $item->{stat}{$fpath} ) {
+					my $file_stat = $self->{stat}{$fpath};
+					$lines_add = $file_stat->{lines_added};
+					$lines_rm = $file_stat->{lines_removed};
+				}
+
+				my ( $dir_l1, $dir_l2, $fname ) = $self->get_file_details( $fpath );
+				my ( $ftype, $lang ) = $self->get_file_fname_lang(
+					$fpath, $item->{hash}, $item->{mode}
+				);
+				my $sub_project = $self->sub_project( $dir_l1, $dir_l2, $fpath );
+
+				# sha1 fpath dir_l1 dir_l2 fname ftype lang sub_project lines_add lines_rm
+				$self->{csv_obj}->print( $self->{cfiles_csv_fh}, [
+					$rcommit_sha, $fpath,
+					$dir_l1, $dir_l2, $fname,
+					$ftype, $lang, $sub_project,
+					$lines_add, $lines_rm
+				] );
+			}
+		}
     }
 
     $state->{max_id} = $max_id;
@@ -200,10 +271,12 @@ sub process_one {
     return 1;
 }
 
-
-sub close_csv_file {
+sub close_csv_files {
 	my $self = shift;
 	$self->{csv_fh}->close();
+	if ( $self->{also_commits_files} ) {
+		$self->{cfiles_csv_fh}->close();
+	}
 	$self->{csv_obj} = undef;
 }
 
