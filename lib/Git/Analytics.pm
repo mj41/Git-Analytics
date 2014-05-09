@@ -75,7 +75,7 @@ sub get_lines_sum_stat {
 }
 
 sub get_project_state {
-	my ( $self, $project ) = @_;
+	my ( $self, $project_alias ) = @_;
 
     my $state_fpath = 'data-cache/git-analytics-state-commits.json';
 
@@ -89,10 +89,10 @@ sub get_project_state {
             projects => {},
         };
     }
-    $state->{projects}{ $project } = 'data-cache/git-analytics-state/commits-'.$project.'.json'
-        unless exists $state->{projects}{ $project };
+    $state->{projects}{ $project_alias } = 'data-cache/git-analytics-state/commits-'.$project_alias.'.json'
+        unless exists $state->{projects}{ $project_alias };
 
-    my $project_state_fpath = $state->{projects}{ $project };
+    my $project_state_fpath = $state->{projects}{ $project_alias };
     my $project_state;
     if ( -f $project_state_fpath ) {
         $project_state = $self->load_data( $project_state_fpath );
@@ -137,10 +137,10 @@ sub gmtime_to_ymd {
 }
 
 sub process_one {
-    my ( $self, $project, $git_lograw_obj, %args ) = @_;
+    my ( $self, $project_alias, $project_name, $git_lograw_obj, %args ) = @_;
 
-    print "Runnnig update for project '$project'.\n" if $self->{vl} >= 4;
-	my ( $state_fpath, $state, $project_state_fpath, $project_state ) = $self->get_project_state( $project );
+    print "Runnnig update for project '$project_alias'.\n" if $self->{vl} >= 4;
+	my ( $state_fpath, $state, $project_state_fpath, $project_state ) = $self->get_project_state( $project_alias );
 
     print "Loading log.\n" if $self->{vl} >= 4;
     my $log = $git_lograw_obj->get_log(
