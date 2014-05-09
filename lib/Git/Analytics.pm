@@ -247,8 +247,8 @@ sub process_one {
 				my $lines_add = 0;
 				my $lines_rm = 0;
 
-				if ( exists $item->{stat}{$fpath} ) {
-					my $file_stat = $self->{stat}{$fpath};
+				if ( exists $commit->{stat}{$fpath} ) {
+					my $file_stat = $commit->{stat}{$fpath};
 					$lines_add = $file_stat->{lines_added};
 					$lines_rm = $file_stat->{lines_removed};
 				}
