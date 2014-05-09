@@ -151,7 +151,7 @@ sub print_csv_headers {
 
 	if ( $self->{also_commits_files} ) {
 		my @cfiles_head_row = qw/
-			sha1 fpath dir_l1 dir_l2 ftype lang sub_project
+			sha1 fpath dir_l1 dir_l2 fname ftype lang sub_project lines_add lines_rm
 		/;
 		$self->{csv_obj}->print( $self->{cfiles_csv_fh}, \@cfiles_head_row );
 	}

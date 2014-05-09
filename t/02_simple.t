@@ -56,7 +56,7 @@ COMMIT_CSV
 
 sub commits_files_csv {
 	return <<'COMMIT_FILES_CSV';
-sha1,fpath,dir_l1,dir_l2,ftype,lang,sub_project
+sha1,fpath,dir_l1,dir_l2,fname,ftype,lang,sub_project,lines_add,lines_rm
 5ac7c3d75e2af0fde3e07ce9e1698339c4241150,Configure.pl,,,Configure.pl,,,,0,0
 88b266ba0c3021c3951b778c69ba16a1fc011270,Makefile,,,Makefile,,,,0,0
 da1b48a750aefd30aaaf9aac4df8e7606f05a855,.gitignore,,,.gitignore,,,,0,0
