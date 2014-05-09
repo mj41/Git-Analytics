@@ -237,6 +237,12 @@ sub process_one {
 
 		if ( $self->{also_commits_files} ) {
 			foreach my $item ( @{$commit->{items}} ) {
+				# Not a regular file - see
+				# https://github.com/gitster/git/blob/master/Documentation/technical/index-format.txt
+				unless ( $item->{mode} =~ /^100/ ) {
+					next;
+				}
+
 				my $fpath = $item->{name};
 				my $lines_add = 0;
 				my $lines_rm = 0;

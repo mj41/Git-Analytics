@@ -60,16 +60,13 @@ sha1,fpath,dir_l1,dir_l2,ftype,lang,sub_project
 5ac7c3d75e2af0fde3e07ce9e1698339c4241150,Configure.pl,,,Configure.pl,,,,0,0
 88b266ba0c3021c3951b778c69ba16a1fc011270,Makefile,,,Makefile,,,,0,0
 da1b48a750aefd30aaaf9aac4df8e7606f05a855,.gitignore,,,.gitignore,,,,0,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t,,,t,,,,0,0
 da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/1_base.t,t,,1_base.t,,,,0,0
 da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/2_err.t,t,,2_err.t,,,,0,0
 da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/3_more.t,t,,3_more.t,,,,0,0
 da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/harness,t,,harness,,,,0,0
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,t,,,t,,,,0,0
 fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/1_base.t,t,,1_base.t,,,,0,0
 fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/2_err.t,t,,2_err.t,,,,0,0
 fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/3_more.t,t,,3_more.t,,,,0,0
-e1cd1429359c6e8cc10f7c1c20c0969390546f11,t,,,t,,,,0,0
 e1cd1429359c6e8cc10f7c1c20c0969390546f11,t/3_more.t,t,,3_more.t,,,,0,0
 COMMIT_FILES_CSV
 }
