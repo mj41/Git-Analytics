@@ -181,12 +181,6 @@ sub get_file_fname_lang {
 	return ( $ftype, $lang );
 }
 
-sub sub_project {
-	my ( $self, $dir_l1, $dir_l2, $fpath ) = @_;
-	my $sub_project = '';
-	return $sub_project;
-}
-
 sub process_one {
     my ( $self, $project_alias, $project_name, $git_lograw_obj, %args ) = @_;
 	$args{git_log_args} = {} unless defined $args{git_log_args};
@@ -257,7 +251,10 @@ sub process_one {
 				my ( $ftype, $lang ) = $self->get_file_fname_lang(
 					$fpath, $item->{hash}, $item->{mode}
 				);
-				my $sub_project = $self->sub_project( $dir_l1, $dir_l2, $fpath );
+				my $sub_project = ( not defined $args{to_sub_project_tr_closure} )
+					? ''
+					: $args{to_sub_project_tr_closure}->( $fpath, $dir_l1, $dir_l2, $fname )
+				;
 
 				# sha1 fpath dir_l1 dir_l2 fname ftype lang sub_project lines_add lines_rm
 				$self->{csv_obj}->print( $self->{cfiles_csv_fh}, [
