@@ -121,7 +121,7 @@ sub print_header_to_csv {
 	my ( $self ) = @_;
 
     my @head_row = qw/
-        id project
+        commit_sha1 project
         author_date committer_date
         commit_author commit_author_email commit_committer commit_committer_email
         merge parents
@@ -175,7 +175,7 @@ sub process_one {
         my ( @lines_sum_stat ) = $self->get_lines_sum_stat( $commit->{stat}, $is_merge );
 
         $self->{csv_obj}->print( $self->{csv_fh}, [
-            $max_id, $project,
+            $rcommit_sha, $project_name,
             $author_dt_str, $committer_dt_str,
             $commit->{author}{name}, $commit->{author}{email},
             $commit->{committer}{name}, $commit->{committer}{email},
