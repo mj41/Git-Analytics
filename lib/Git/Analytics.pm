@@ -14,6 +14,7 @@ sub new {
 	my ( $class, %args )= @_;
 	my $self = {};
 	$self->{vl} = $args{verbose_level} // 3;
+	$self->{data_cache_dir} = $args{data_cache_dir} || 'data-cache';
 	$self->{json_obj} = JSON::XS->new->canonical(1)->pretty(1)->utf8(0)->relaxed(1);
 	bless $self, $class;
 }
@@ -77,7 +78,9 @@ sub get_lines_sum_stat {
 sub get_project_state {
 	my ( $self, $project_alias ) = @_;
 
-    my $state_fpath = 'data-cache/git-analytics-state-commits.json';
+    my $state_fpath = File::Spec->catfile(
+		$self->{data_cache_dir}, 'git-analytics-state-commits.json'
+	);
 
     my $state;
     if ( -f $state_fpath ) {
@@ -89,8 +92,14 @@ sub get_project_state {
             projects => {},
         };
     }
-    $state->{projects}{ $project_alias } = 'data-cache/git-analytics-state/commits-'.$project_alias.'.json'
-        unless exists $state->{projects}{ $project_alias };
+
+    my $state_dir = File::Spec->catdir( $self->{data_cache_dir}, 'git-analytics-state' );
+    unless ( -d $state_dir ) {
+		mkdir($state_dir) || croak "Can't create directory '$state_dir': $!\n";
+    }
+    $state->{projects}{ $project_alias } = File::Spec->catfile(
+		 $state_dir, 'commits-'.$project_alias.'.json'
+	) unless exists $state->{projects}{ $project_alias };
 
     my $project_state_fpath = $state->{projects}{ $project_alias };
     my $project_state;
