@@ -32,11 +32,11 @@ sub get_clonesmanager_obj {
 	return $cm_obj;
 }
 
-my $project_alias = 'tt-tr1';
+my $project_alias = 'git-trepo';
 my $cm_obj = get_clonesmanager_obj($project_alias);
 my $base_repo_obj = $cm_obj->get_repo_obj(
 	$project_alias,
-	repo_url => 'git@github.com:mj41/tt-tr1.git',
+	repo_url => 'git@github.com:mj41/git-trepo.git',
 	skip_fetch => 1,
 );
 
@@ -46,28 +46,30 @@ ok( (-d $tmp_dir), 'tmp dir created' );
 sub commits_csv {
 	return <<'COMMIT_CSV';
 commit_sha1,project,author_date,committer_date,commit_author,commit_author_email,commit_committer,commit_committer_email,merge,parents,files_a,files_m,files_d,lines_add,lines_rm
-5ac7c3d75e2af0fde3e07ce9e1698339c4241150,"GA test pr",2011-02-04,2011-02-04,"Michal Jurosz",mj@mj41.cz,"Michal Jurosz",mj@mj41.cz,0,1,0,1,0,1,1
-88b266ba0c3021c3951b778c69ba16a1fc011270,"GA test pr",2011-02-07,2011-02-07,"Michal Jurosz",mj@mj41.cz,"Michal Jurosz",mj@mj41.cz,0,1,0,1,0,3,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,"GA test pr",2012-02-08,2012-02-08,"Michal Jurosz",mj@mj41.cz,"Michal Jurosz",mj@mj41.cz,0,1,6,0,0,67,0
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,"GA test pr",2012-04-01,2012-04-01,"Michal Jurosz",mj@mj41.cz,"Michal Jurosz",mj@mj41.cz,0,1,0,4,0,4,2
-e1cd1429359c6e8cc10f7c1c20c0969390546f11,"GA test pr",2012-04-01,2012-04-01,"Michal Jurosz",mj@mj41.cz,"Michal Jurosz",mj@mj41.cz,0,1,0,2,0,1,1
+c1845d7580a091c1718e083cc5e90751cf3853f3,"GA test pr",2006-07-21,2006-07-21,"Karel Lysohlavka",kal@houby.eu,"Karel Lysohlavka",kal@houby.eu,0,0,1,0,0,2,0
+ac03197f450c74342f76f6eab41569a26fa3baaa,"GA test pr",2006-07-22,2006-07-22,"Karel Lysohlavka",kal@houby.eu,"Josef Pepa Muchomurka",josef.p.muchomurka@mushrooms.com,0,1,0,1,0,3,0
+5f210bbb24cd5aefebe2af941161fc932977b3c3,"GA test pr",2006-07-23,2006-07-23,"Karel Lysohlavka",kal@houby.eu,"Josef Pepa Muchomurka",josef.p.muchomurka@mushrooms.com,0,1,0,1,0,1,3
+4fab7f5354212394c2d351de2c62618a5df69357,"GA test pr",2006-07-24,2006-07-24,"Josef Pepa Muchomurka",josef.p.muchomurka@mushrooms.com,"Josef Pepa Muchomurka",josef.p.muchomurka@mushrooms.com,0,1,0,0,1,0,3
+51a4b7bfd29422c94d9508c64432918b45edcf1b,"GA test pr",2006-07-25,2006-07-25,"Karel Lysohlavka",kal@houby.eu,"Josef Pepa Muchomurka",josef.p.muchomurka@mushrooms.com,0,1,7,0,0,13,0
+50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,"GA test pr",2006-07-26,2006-07-26,"Josef Pepa Muchomurka",josef.p.muchomurka@mushrooms.com,"Josef Pepa Muchomurka",josef.p.muchomurka@mushrooms.com,0,1,0,7,0,8,6
+5cc99b1f762d5693b9c6ab37d7ae876d799b84bc,"GA test pr",2006-07-27,2006-07-27,"Karel Lysohlavka",kal@houby.eu,"Karel Lysohlavka",kal@houby.eu,0,1,0,1,4,0,13
+940397865d3b109ce7933d188bd37240897545bf,"GA test pr",2006-07-28,2006-07-28,"Eva Bedlova Zajickova",eva-zajickova@v-hribovem-lesiku.cz,"Eva Bedlova Zajickova",eva-zajickova@v-hribovem-lesiku.cz,0,1,2,0,3,2,2
 COMMIT_CSV
 }
 
 sub commits_files_csv {
 	return <<'COMMIT_FILES_CSV';
 sha1,fpath,dir_l1,dir_l2,fname,ftype,lang,sub_project,lines_add,lines_rm
-5ac7c3d75e2af0fde3e07ce9e1698339c4241150,Configure.pl,,,Configure.pl,code,Perl,-,1,1
-88b266ba0c3021c3951b778c69ba16a1fc011270,Makefile,,,Makefile,unk,unk,-,3,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,.gitignore,,,.gitignore,unk,unk,-,1,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/1_base.t,t,,1_base.t,test,Perl,-,11,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/2_err.t,t,,2_err.t,test,Perl,-,10,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/3_more.t,t,,3_more.t,test,Perl,-,20,0
-da1b48a750aefd30aaaf9aac4df8e7606f05a855,t/harness,t,,harness,unk,unk,-,25,0
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/1_base.t,t,,1_base.t,test,Perl,-,0,1
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/2_err.t,t,,2_err.t,test,Perl,-,2,1
-fac2f14fc69dcb680bc83fbb827e12ff391e839b,t/3_more.t,t,,3_more.t,test,Perl,-,2,0
-e1cd1429359c6e8cc10f7c1c20c0969390546f11,t/3_more.t,t,,3_more.t,test,Perl,-,1,1
+c1845d7580a091c1718e083cc5e90751cf3853f3,fileR1.txt,,,fileR1.txt,unk,unk,-,2,0
+ac03197f450c74342f76f6eab41569a26fa3baaa,fileR1.txt,,,fileR1.txt,unk,unk,-,3,0
+5f210bbb24cd5aefebe2af941161fc932977b3c3,fileR1.txt,,,fileR1.txt,unk,unk,-,1,3
+51a4b7bfd29422c94d9508c64432918b45edcf1b,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,3,0
+51a4b7bfd29422c94d9508c64432918b45edcf1b,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,5,0
+51a4b7bfd29422c94d9508c64432918b45edcf1b,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,5,0
+50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,2,2
+50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,5,0
+50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,1,4
+940397865d3b109ce7933d188bd37240897545bf,dirA/fileA04-BsY03.txt,dirA,,fileA04-BsY03.txt,unk,unk,-,2,0
 COMMIT_FILES_CSV
 }
 
@@ -108,7 +110,7 @@ describe "method" => sub {
 			'GA test pr',
 			$git_lograw_obj,
 			git_log_args => {
-				rev_range => 'b5a35dc398e30bcec04c3dcb14f53a077750466c..e1cd1429359c6e8cc10f7c1c20c0969390546f11',
+				rev_range => '940397865d3b109ce7933d188bd37240897545bf',
 			}
 		);
 	};
