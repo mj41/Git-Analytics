@@ -176,21 +176,35 @@ sub get_file_details {
 
 sub get_file_fname_lang {
 	my ( $self, $fpath, $file_sha1_hash, $git_file_mode ) = @_;
-	return ('code','Perl')          if $fpath =~ m{\.(pl|pm)$}i;
-	return ('doc', 'Perl')          if $fpath =~ m{\.(pod)$}i;
-	return ('test','Perl')          if $fpath =~ m{\.(t)$}i;
-	return ('code','Perl 6')        if $fpath =~ m{\.(p6)$}i;
-	return ('code','NQP')           if $fpath =~ m{\.(nqp)$}i;
-	return ('code','PIR')           if $fpath =~ m{\.(pir)$}i;
-	return ('code','C')             if $fpath =~ m{\.(c|h)$}i;
-	return ('code','JavaScript')    if $fpath =~ m{\.(js)$}i;
-	return ('code','Python')        if $fpath =~ m{\.(py)$}i;
-	return ('code','Java')          if $fpath =~ m{\.(java)$}i;
-	return ('code','Bash')          if $fpath =~ m{\.(sh)$}i;
-	return ('code','Haskell')       if $fpath =~ m{\.(hs)$}i;
-	return ('view','HTML')          if $fpath =~ m{\.(html?)$}i;
-	return ('view','CSS')           if $fpath =~ m{\.(css?)$}i;
-	return ('unk','unk');
+
+	return ( 'code',     'Perl'      )    if $fpath =~ m{\.(pl|pm|pod|p6|t)$}i;
+	return ( 'code',     'NQP'       )    if $fpath =~ m{\.(nqp)$}i;
+	return ( 'code',     'PIR'       )    if $fpath =~ m{\.(pir)$}i;
+
+	return ( 'code',     'C'         )    if $fpath =~ m{\.(c|h)$}i;
+	return ( 'code',     'JavaScript')    if $fpath =~ m{\.(js)$}i;
+	return ( 'code',     'Python'    )    if $fpath =~ m{\.(py)$}i;
+	return ( 'code',     'PHP'       )    if $fpath =~ m{\.(php)$}i;
+	return ( 'code',     'Ruby'      )    if $fpath =~ m{\.(rb)$}i;
+	return ( 'code',     'Java'      )    if $fpath =~ m{\.(java|class)$}i;
+	return ( 'code',     'Bash'      )    if $fpath =~ m{\.(sh)$}i;
+	return ( 'code',     'Haskell'   )    if $fpath =~ m{\.(hs)$}i;
+	return ( 'code',     'Erlang'    )    if $fpath =~ m{\.(erl)$}i;
+
+	return ( 'struct',   'YAML'      )    if $fpath =~ m{\.(yml|yaml)$}i;
+	return ( 'struct',   'JSON'      )    if $fpath =~ m{\.(json)$}i;
+	return ( 'struct',   'n/a'       )    if $fpath =~ m{\.(conf|cfg)$}i;
+	return ( 'struct',   'XML'       )    if $fpath =~ m{\.(xml)$}i;
+
+	return ( 'view',     'HTML'      )    if $fpath =~ m{\.(html?)$}i;
+	return ( 'view',     'CSS'       )    if $fpath =~ m{\.(css?)$}i;
+
+	return ( 'image',    'n/a'       )    if $fpath =~ m{\.(png|jpg|gif)$}i;
+	return ( 'video',    'n/a'       )    if $fpath =~ m{\.(avi|mov|mpg|mpeg)$}i;
+	return ( 'archive',  'n/a'       )    if $fpath =~ m{\.(zip|tar|gz|tgz)$}i;
+	return ( 'bin',      'n/a'       )    if $fpath =~ m{\.(bin)$}i;
+	return ( 'document', 'n/a'       )    if $fpath =~ m{\.(doc|xls|ppt)$}i;
+	return ( 'unk',      'unk'       );
 }
 
 sub process_one {
