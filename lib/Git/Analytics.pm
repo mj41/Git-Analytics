@@ -151,7 +151,8 @@ sub print_csv_headers {
 
 	if ( $self->{also_commits_files} ) {
 		my @cfiles_head_row = qw/
-			sha1 fpath dir_l1 dir_l2 fname ftype lang sub_project lines_add lines_rm
+			sha1 fpath dir_l1 dir_l2 fname ftype lang sub_project
+			cf_status_short cf_status_descr lines_add lines_rm
 		/;
 		$self->{csv_obj}->print( $self->{cfiles_csv_fh}, \@cfiles_head_row );
 	}
@@ -205,6 +206,13 @@ sub get_file_fname_lang {
 	return ( 'bin',      'n/a'       )    if $fpath =~ m{\.(bin)$}i;
 	return ( 'document', 'n/a'       )    if $fpath =~ m{\.(doc|xls|ppt)$}i;
 	return ( 'unk',      'unk'       );
+}
+
+sub item_status {
+	my ( $self, $item ) = @_;
+	return ('R', 'removed' ) if $item->{hash} eq '0000000000000000000000000000000000000000';
+	return ('A', 'added'   ) if $item->{parents}[0]{hash} eq '0000000000000000000000000000000000000000';
+	return ('M', 'modified');
 }
 
 sub process_one {
@@ -281,12 +289,15 @@ sub process_one {
 					? '-'
 					: $args{to_sub_project_tr_closure}->( $fpath, $dir_l1, $dir_l2, $fname )
 				;
+				my ( $status_short, $status_descr ) = $self->item_status( $item );
 
-				# sha1 fpath dir_l1 dir_l2 fname ftype lang sub_project lines_add lines_rm
+				# sha1 fpath dir_l1 dir_l2 fname ftype lang sub_project
+				# cf_status_short cf_status_descr lines_add lines_rm
 				$self->{csv_obj}->print( $self->{cfiles_csv_fh}, [
 					$rcommit_sha, $fpath,
 					$dir_l1, $dir_l2, $fname,
 					$ftype, $lang, $sub_project,
+					$status_short, $status_descr,
 					$lines_add, $lines_rm
 				] );
 			}

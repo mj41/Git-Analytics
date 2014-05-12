@@ -59,21 +59,21 @@ COMMIT_CSV
 
 sub commits_files_csv {
 	return <<'COMMIT_FILES_CSV';
-sha1,fpath,dir_l1,dir_l2,fname,ftype,lang,sub_project,lines_add,lines_rm
-c1845d7580a091c1718e083cc5e90751cf3853f3,fileR1.txt,,,fileR1.txt,unk,unk,-,2,0
-ac03197f450c74342f76f6eab41569a26fa3baaa,fileR1.txt,,,fileR1.txt,unk,unk,-,3,0
-5f210bbb24cd5aefebe2af941161fc932977b3c3,fileR1.txt,,,fileR1.txt,unk,unk,-,1,3
-4fab7f5354212394c2d351de2c62618a5df69357,fileR1.txt,,,fileR1.txt,unk,unk,-,0,3
-51a4b7bfd29422c94d9508c64432918b45edcf1b,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,3,0
-51a4b7bfd29422c94d9508c64432918b45edcf1b,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,5,0
-51a4b7bfd29422c94d9508c64432918b45edcf1b,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,5,0
-50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,2,2
-50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,5,0
-50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,1,4
-5cc99b1f762d5693b9c6ab37d7ae876d799b84bc,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,0,3
-5cc99b1f762d5693b9c6ab37d7ae876d799b84bc,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,0,10
-940397865d3b109ce7933d188bd37240897545bf,dirA/fileA04-BsY03.txt,dirA,,fileA04-BsY03.txt,unk,unk,-,2,0
-940397865d3b109ce7933d188bd37240897545bf,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,0,2
+sha1,fpath,dir_l1,dir_l2,fname,ftype,lang,sub_project,cf_status_short,cf_status_descr,lines_add,lines_rm
+c1845d7580a091c1718e083cc5e90751cf3853f3,fileR1.txt,,,fileR1.txt,unk,unk,-,A,added,2,0
+ac03197f450c74342f76f6eab41569a26fa3baaa,fileR1.txt,,,fileR1.txt,unk,unk,-,M,modified,3,0
+5f210bbb24cd5aefebe2af941161fc932977b3c3,fileR1.txt,,,fileR1.txt,unk,unk,-,M,modified,1,3
+4fab7f5354212394c2d351de2c62618a5df69357,fileR1.txt,,,fileR1.txt,unk,unk,-,R,removed,0,3
+51a4b7bfd29422c94d9508c64432918b45edcf1b,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,A,added,3,0
+51a4b7bfd29422c94d9508c64432918b45edcf1b,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,A,added,5,0
+51a4b7bfd29422c94d9508c64432918b45edcf1b,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,A,added,5,0
+50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,M,modified,2,2
+50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,M,modified,5,0
+50f8430f51ab6dd09f7b70ba04f50c7e6f8a013c,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,M,modified,1,4
+5cc99b1f762d5693b9c6ab37d7ae876d799b84bc,dirA/fileA01.txt,dirA,,fileA01.txt,unk,unk,-,R,removed,0,3
+5cc99b1f762d5693b9c6ab37d7ae876d799b84bc,dirB/s-dirX/fileBsX02.txt,dirB,s-dirX,fileBsX02.txt,unk,unk,-,R,removed,0,10
+940397865d3b109ce7933d188bd37240897545bf,dirA/fileA04-BsY03.txt,dirA,,fileA04-BsY03.txt,unk,unk,-,A,added,2,0
+940397865d3b109ce7933d188bd37240897545bf,dirB/s-dirY/fileBsY03.txt,dirB,s-dirY,fileBsY03.txt,unk,unk,-,R,removed,0,2
 COMMIT_FILES_CSV
 }
 
